@@ -13,10 +13,7 @@ export class HttpClient {
         )
         
         if (!response.ok) {
-            const error = new Error(`HTTP status ${response.status} : ${response.statusText}`)
-            error.status = response.status
-            error.response = response
-            throw error
+            throw new Error(`${response.status} : ${response.statusText}`)
         }
         
         return response.json()
@@ -25,27 +22,26 @@ export class HttpClient {
     /**
      * Send a POST request to the endpoint
      * @param {string} endpoint
-     * @param {object} data
+     * @param {object} payload
      * @returns Promise<any>
      * @raise Error if status <> 20x ou 30x
      */
-    async post(endpoint, data) {
+    async post(endpoint, payload) {
+        const init = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+        
         const response = await fetch(
             `${this.#api}${endpoint}`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }
+            init
         )
         
         if (!response.ok) {
-            const error = new Error(`HTTP status ${response.status} : ${response.statusText}`)
-            error.status = response.status
-            error.response = response
-            throw error
+            throw new Error(`${response.status} : ${response.statusText}`)
         }
         
         return response.json()
@@ -60,7 +56,7 @@ const consumer = async () => {
         const payload = await httpClient.get('users')
         console.table(payload)
     } catch (error) {
-        console.error(`${error.status} : ${error.message}`)
+        console.error(error.message)
     }
 }
 
@@ -74,5 +70,5 @@ const add = async () => {
 }
 
 // Call the functions
-add()
-consumer()
+await add()       // Attend que add() finisse
+await consumer()  // Puis exécute consumer()
