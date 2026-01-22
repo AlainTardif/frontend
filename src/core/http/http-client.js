@@ -19,7 +19,7 @@ export class HttpClient {
             throw error
         }
         
-        return response.json()
+        return response.json() // Si tout est bon on retourne le JSON
     }
 }
 
@@ -31,8 +31,8 @@ const consumer = async () => {
         const payload = await httpClient.get('users')
         console.table(payload)
     } catch (error) {
+        console.error(`${error.status} - ${JSON.stringify(error.response)}`)
         console.error(`Erreur: ${error.message}`)
-        console.error(`Status: ${error.status}`)
     }
 }
 
