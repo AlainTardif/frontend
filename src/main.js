@@ -23,7 +23,7 @@ const testUpdate = async () => {
 
 // Test DELETE
 const testDelete = async () => {
-    await productService.delete(3)
+    await productService.delete(8)
     console.log('Deleted!')
 }
 
