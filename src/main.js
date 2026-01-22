@@ -28,10 +28,10 @@ const testDelete = async () => {
 }
 
 // Exécution
-await testGetAll()
-await testAdd()
-await testUpdate()
-await testDelete()
-await testGetAll()
+await testGetAll()   // 1️⃣ Voir l'état AVANT
+await testAdd()      // Ajouter
+await testUpdate()   // Modifier
+await testDelete()   // Supprimer
+await testGetAll()   // 2️⃣ Voir l'état APRÈS
 
 
