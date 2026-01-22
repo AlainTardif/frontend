@@ -2,7 +2,7 @@ import { HttpClient } from '../http/http-client.js'
 
 export class ProductService {
     #httpClient
-    #endPoint = 'users'  // ou 'collection'
+    #endPoint = 'users'
 
     constructor() {
         this.#httpClient = new HttpClient()
@@ -13,7 +13,12 @@ export class ProductService {
      * @returns Promise<Array<any>>
      */
     async getAll() {
-        return this.#httpClient.get(this.#endPoint)
+        try {
+            return await this.#httpClient.get(this.#endPoint)
+        } catch (error) {
+            console.error('Cannot fetch products')
+            throw error
+        }
     }
 
     /**
@@ -22,7 +27,12 @@ export class ProductService {
      * @returns Promise<any>
      */
     async getOne(id) {
-        return this.#httpClient.get(`${this.#endPoint}/${id}`)
+        try {
+            return await this.#httpClient.get(`${this.#endPoint}/${id}`)
+        } catch (error) {
+            console.error(`Product with id ${id} not found`)
+            throw error
+        }
     }
 
     /**
@@ -31,7 +41,12 @@ export class ProductService {
      * @returns Promise<any>
      */
     async add(product) {
-        return this.#httpClient.post(this.#endPoint, product)
+        try {
+            return await this.#httpClient.post(this.#endPoint, product)
+        } catch (error) {
+            console.error('Cannot add product')
+            throw error
+        }
     }
 
     /**
@@ -41,7 +56,12 @@ export class ProductService {
      * @returns Promise<Response>
      */
     async update(id, product) {
-        return this.#httpClient.put(`${this.#endPoint}/${id}`, product)
+        try {
+            return await this.#httpClient.put(`${this.#endPoint}/${id}`, product)
+        } catch (error) {
+            console.error(`Cannot update: product with id ${id} not found`)
+            throw error
+        }
     }
 
     /**
@@ -50,6 +70,11 @@ export class ProductService {
      * @returns Promise<Response>
      */
     async delete(id) {
-        return this.#httpClient.delete(`${this.#endPoint}/${id}`)
+        try {
+            return await this.#httpClient.delete(`${this.#endPoint}/${id}`)
+        } catch (error) {
+            console.error(`Cannot delete: product with id ${id} not found`)
+            throw error
+        }
     }
 }
