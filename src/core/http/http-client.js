@@ -20,6 +20,8 @@ const httpClient = new HttpClient()
 const consumer = async () => {
      const response = await httpClient.get('users')
      console.log(`Response status: ${response.status}` )
+     const payload = await response.json()
+     console.table(payload)
      
 }
 
