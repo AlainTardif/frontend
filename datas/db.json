@@ -1,16 +1,12 @@
 {
   "users": [
     {
-      "id": 1,
-      "name": "Alain"
+      "name": "Alain Updated",
+      "id": 1
     },
     {
       "id": 2,
       "name": "Tardif"
-    },
-    {
-      "name": "Product 2",
-      "id": 3
     },
     {
       "name": "Product 2",
@@ -27,6 +23,10 @@
     {
       "name": "Product 2",
       "id": 7
+    },
+    {
+      "name": "Product 3",
+      "id": 8
     }
   ]
 }

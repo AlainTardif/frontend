@@ -5,12 +5,9 @@ export class HttpClient {
      * Send a GET request to the endpoint
      * @param {string} endpoint
      * @returns Promise<any>
-     * @raise Error if status <> 20x ou 30x
      */
     async get(endpoint) {
-        const response = await fetch(
-            `${this.#api}${endpoint}`
-        )
+        const response = await fetch(`${this.#api}${endpoint}`)
         
         if (!response.ok) {
             throw new Error(`${response.status} : ${response.statusText}`)
@@ -24,21 +21,15 @@ export class HttpClient {
      * @param {string} endpoint
      * @param {object} payload
      * @returns Promise<any>
-     * @raise Error if status <> 20x ou 30x
      */
     async post(endpoint, payload) {
         const init = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         }
         
-        const response = await fetch(
-            `${this.#api}${endpoint}`,
-            init
-        )
+        const response = await fetch(`${this.#api}${endpoint}`, init)
         
         if (!response.ok) {
             throw new Error(`${response.status} : ${response.statusText}`)
@@ -46,29 +37,45 @@ export class HttpClient {
         
         return response.json()
     }
-}
 
-// Essayer de communiquer avec le backend
-const httpClient = new HttpClient()
+    /**
+     * Send a PUT request to the endpoint
+     * @param {string} endpoint
+     * @param {object} payload
+     * @returns Promise<Response>
+     */
+    async put(endpoint, payload) {
+        const init = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }
+        
+        const response = await fetch(`${this.#api}${endpoint}`, init)
+        
+        if (!response.ok) {
+            throw new Error(`${response.status} : ${response.statusText}`)
+        }
+        
+        return response.json()
+    }
 
-const consumer = async () => {
-    try {
-        const payload = await httpClient.get('users')
-        console.table(payload)
-    } catch (error) {
-        console.error(error.message)
+    /**
+     * Send a DELETE request to the endpoint
+     * @param {string} endpoint
+     * @returns Promise<Response>
+     */
+    async delete(endpoint) {
+        const init = {
+            method: 'DELETE'
+        }
+        
+        const response = await fetch(`${this.#api}${endpoint}`, init)
+        
+        if (!response.ok) {
+            throw new Error(`${response.status} : ${response.statusText}`)
+        }
+        
+        return response
     }
 }
-
-const add = async () => {
-    const newProduct = {
-        name: "Product 2"
-    }
-    
-    const productCreated = await httpClient.post('users', newProduct)
-    console.log(productCreated)
-}
-
-// Call the functions
-await add()       // Attend que add() finisse
-await consumer()  // Puis exécute consumer()
